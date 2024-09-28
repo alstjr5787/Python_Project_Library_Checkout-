@@ -61,7 +61,7 @@ class AddMemberForm(QDialog):
         }
 
         try:
-            response = requests.post('http://jukson.dothome.co.kr/LibraryProject/signup.php', data=data)
+            response = requests.post('http://domain.com/LibraryProject/signup.php', data=data)
             response_data = response.json()
             QMessageBox.information(self, "회원 추가", response_data['message'])
             if response_data['status'] == 'success':
@@ -109,7 +109,7 @@ class SearchResultDialog(QDialog):
         self.resize(460, 400)
 
     def fetch_user_data(self):
-        url = 'http://jukson.dothome.co.kr/LibraryProject/get_user.php'
+        url = 'http://domain.com/LibraryProject/get_user.php'
         response = requests.get(url)
 
         if response.status_code == 200:
@@ -317,7 +317,7 @@ class LibraryApp(QWidget):
 
 
     def load_data(self):
-        response = requests.get("http://jukson.dothome.co.kr/LibraryProject/get_book.php")
+        response = requests.get("http://domain.com/LibraryProject/get_book.php")
         if response.status_code == 200:
             data = response.json()
             self.populate_table(data)
@@ -338,7 +338,7 @@ class LibraryApp(QWidget):
         search_text = self.search_input.text().strip()
         title_search = self.title_checkbox.isChecked()
         name_search = self.name_checkbox.isChecked()
-        response = requests.get("http://jukson.dothome.co.kr/LibraryProject/get_book.php")
+        response = requests.get("http://domain.com/LibraryProject/get_book.php")
 
         if response.status_code == 200:
             data = response.json()
@@ -352,7 +352,7 @@ class LibraryApp(QWidget):
             self.populate_table(filtered_data)
 
     def fetch_book_info(self, current_barcode):
-        response = requests.get(f'http://jukson.dothome.co.kr/LibraryProject/book_data.php?isbn={current_barcode}')
+        response = requests.get(f'http://domain.com/LibraryProject/book_data.php?isbn={current_barcode}')
         book_info = response.json()
 
         if book_info['status'] == 'success':
@@ -386,7 +386,7 @@ class LibraryApp(QWidget):
                 'isbn': isbn,
                 'total_copies': 1
             }
-            response = requests.post('http://jukson.dothome.co.kr/LibraryProject/add_book.php', json=data)
+            response = requests.post('http://domain.com/LibraryProject/add_book.php', json=data)
             response_data = response.json()
             if response_data['status'] == 'success':
                 self.load_data()
@@ -416,7 +416,7 @@ class LibraryApp(QWidget):
         member_id = self.rent_quantity_edit.text()
         book_title = self.title_edit.text()
 
-        url = "http://jukson.dothome.co.kr/LibraryProject/add_rent.php"
+        url = "http://domain.com/LibraryProject/add_rent.php"
         data = {
             'member_id': member_id,
             'book_title': book_title
@@ -443,7 +443,7 @@ class LibraryApp(QWidget):
         member_id = self.rent_quantity_edit.text()
         book_title = self.title_edit.text()
 
-        url = "http://jukson.dothome.co.kr/LibraryProject/add_return.php"
+        url = "http://domain.com/LibraryProject/add_return.php"
         data = {
             'member_id': member_id,
             'book_title': book_title
@@ -467,7 +467,7 @@ class LibraryApp(QWidget):
             QMessageBox.critical(self, '반납 정보', f'서버와의 통신에 실패했습니다: {e}')
 
     def refresh_table(self):
-        url = "http://jukson.dothome.co.kr/LibraryProject/get_book.php"
+        url = "http://domain.com/LibraryProject/get_book.php"
         try:
             response = requests.get(url)
             if response.status_code == 200:
